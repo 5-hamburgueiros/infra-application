@@ -9,6 +9,24 @@ module "eks" {
   subnet_ids               = module.vpc.private_subnets
   control_plane_subnet_ids = module.vpc.intra_subnets
 
+
+  create_kms_key              = false
+  create_cloudwatch_log_group = false
+  cluster_encryption_config   = {}
+
+  cluster_addons = {
+      coredns = {
+      most_recent = true
+      }
+      kube-proxy = {
+      most_recent = true
+      }
+      vpc-cni = {
+      most_recent = true
+      }
+  }
+
+
   # EKS Managed Node Group(s)
   eks_managed_node_group_defaults = {
     ami_type       = "AL2_x86_64"
